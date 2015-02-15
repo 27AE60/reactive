@@ -3,10 +3,19 @@
   "version": "0.0.1",
   "description": "All simple generator for react apps. Supports sass and jade.",
   "main": "index.js",
-  "keywords": ["yeoman-generator", "react", "reactjs", "sass", "jade"],
+  "keywords": [
+    "yeoman-generator",
+    "react",
+    "reactjs",
+    "sass",
+    "jade"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Babaji",
-  "license": "ISC"
+  "license": "unlicense",
+  "dependencies": {
+    "yeoman-generator": "^0.18.8"
+  }
 }
