@@ -16,6 +16,7 @@
   "author": "Babaji",
   "license": "unlicense",
   "dependencies": {
-    "yeoman-generator": "^0.18.8"
+    "yeoman-generator": "^0.18.8",
+    "yosay": "^1.0.2"
   }
 }

@@ -1,6 +1,7 @@
 'use strict';
 
-var yo = require('yeoman-generator');
+var yo = require('yeoman-generator'),
+  yosay = require('yosay');
 
 module.exports = yo.generators.Base.extend({
   constructor: function() {
@@ -9,29 +10,28 @@ module.exports = yo.generators.Base.extend({
 
   initializing: function() {
     this.pkg = require('../../package.json');
-    console.log('fuck you babaji', this.pkg)
-    // "gulp-postcss": "^3.0.0",<% if (includeSass) { %>
-    // "gulp-sass": "^1.2.4",<% } %>
-    // "gulp-cache": "^0.2.2",
-    // "gulp-csso": "^0.2.6",
-    // "gulp-filter": "^2.0.0",
-    // "gulp-flatten": "^0.0.4",
-    // "gulp-if": "^1.2.1",
-    // "gulp-imagemin": "^2.0.0",
-    // "gulp-jshint": "^1.5.3",
-    // "gulp-load-plugins": "^0.8.0",
-    // "gulp-minify-html": "^0.1.6",
-    // "gulp-size": "^1.1.0",
-    // "gulp-sourcemaps": "^1.3.0",
-    // "gulp-uglify": "^1.0.1",
-    // "gulp-useref": "^1.0.2",
-    // "jshint-stylish": "^1.0.0",
-    // "main-bower-files": "^2.1.0",
-    // "opn": "^1.0.0",
-    // "wiredep": "^2.0.0"
-    // "autoprefixer-core": "^4.0.2",
-    // "browser-sync": "^1.8.2",
-    // "del": "^1.1.1",
+  },
+
+  prompting: function() {
+    var done = this.async();
+
+    this.log(yosay('\'Allo! Devs! Reactive does lot of stuff.'));
+
+    this.prompt([{
+      type: 'input',
+      name: 'rname',
+      message: 'Your project name',
+      default: this.appname // Default to current folder name
+    }, {
+      type: 'input',
+      name: 'rauthor',
+      message: 'Author name',
+      default: 'Reactive' // Defaults to Reactive
+    }], function(answers) {
+      this.rname = answers.rname;
+      this.rauthor = answers.rauthor;
+      done();
+    }.bind(this));
   },
 
   writing: {
@@ -50,9 +50,9 @@ module.exports = yo.generators.Base.extend({
       this.template('package.json', 'package.json');
     },
     reactive: function() {
-      this.copy('gulpfile.js', 'gulpfile.js');
       this.mkdir('.reactive');
       this.mkdir('.reactive/tpl');
+      this.copy('gulpfile.js', 'gulpfile.js');
       this.copy('component.js', '.reactive/component.js');
       this.copy('compile.js', '.reactive/compile.js');
       this.copy('component.json.tpl', '.reactive/tpl/component.json.tpl');
@@ -67,7 +67,7 @@ module.exports = yo.generators.Base.extend({
       this.mkdir('src/components/Yo/src');
       this.mkdir('src/components/Yo/test');
       this.mkdir('src/components/Yo/src/jsx');
-      // this.copy('component_index.jade', 'src/components/yo/src/index.jsde')
+      // this.copy('component_index.jade', 'src/components/yo/src/index.jade')
     },
     src: function() {
       this.mkdir('src/actions');
