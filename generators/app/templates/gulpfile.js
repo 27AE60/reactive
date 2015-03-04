@@ -3,7 +3,8 @@
 var gulp = require('gulp'),
   gulpCommand = require('gulp-command')(gulp);
 
-var Component = new(require('./.reactive/component.js'));
+var Component = new(require('./.reactive/component.js')),
+  Captain = new(require('./.reactive/captain.js'));
 
 gulp
   .option('component', '-a, --add ', 'New Component')
@@ -30,11 +31,11 @@ gulp
 
 gulp
   .task('watch', function() {
-    console.log('watch');
+    Captain.watch();
   })
   .task('build', function() {
-    console.log('build');
+    Captain.build();
   })
   .task('test', function() {
-    console.log('test');
+    Captain.test();
   });

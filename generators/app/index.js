@@ -55,6 +55,8 @@ module.exports = yo.generators.Base.extend({
       this.copy('gulpfile.js', 'gulpfile.js');
       this.copy('component.js', '.reactive/component.js');
       this.copy('compile.js', '.reactive/compile.js');
+      this.copy('captain.js', '.reactive/captain.js');
+      this.copy('util.js', '.reactive/util.js');
       this.copy('component.json.tpl', '.reactive/tpl/component.json.tpl');
       this.copy('component.jsx.tpl', '.reactive/tpl/component.jsx.tpl');
       this.copy('trigger.jsx.tpl', '.reactive/tpl/trigger.jsx.tpl');
@@ -86,6 +88,7 @@ module.exports = yo.generators.Base.extend({
       // add app directories
       this.mkdir('src');
       this.mkdir('.tmp');
+      this.mkdir('.tmp/app');
       this.mkdir('.tmp/components');
       this.mkdir('test');
     }

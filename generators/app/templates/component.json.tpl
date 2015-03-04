@@ -4,8 +4,8 @@
   "keywords" : [],
   "description" : "",
   "dependencies" : {
-    "extSass" : [],
-    "extJsx": [],
+    "s-css" : [],
+    "js-x": [],
     "components" : []
   }
 }

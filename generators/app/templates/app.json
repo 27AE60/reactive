@@ -1,6 +1,11 @@
 {
   "name": "<%= rname %>",
   "author": "<%= rauthor %>",
+  "dependencies": {
+    "js-x": ["actions", "constants", "dispatchers", "mixins", "stores", "utility", "layouts"],
+    "s-css": ["media/styles/base", "media/styles"],
+    "components": ["Yo"]
+  },
   "components":{
     "basePath": "src/components",
     "tempDir": ".tmp/components",

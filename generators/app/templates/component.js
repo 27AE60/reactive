@@ -8,6 +8,7 @@ var fs = require('fs'),
   net = require('net'),
   connect = require('gulp-connect'),
   compile = require('./compile.js'),
+  util = require('./util.js'),
   config = require('../app.json').components;
 
 var baseDir = path.resolve(__dirname, '../');
@@ -41,8 +42,7 @@ Component.prototype.add = function(_component) {
     fs.writeFile(
       path.join(_path, filename),
       lodash.template(template)({
-        name: _component.charAt(0).toUpperCase() + _component.slice(1),
-        author: 'Reactive'
+        name: _component.charAt(0).toUpperCase() + _component.slice(1)
       }),
       function(e) {
         if (e) {
@@ -56,15 +56,17 @@ Component.prototype.add = function(_component) {
 Component.prototype.remove = function(_component) {
   var _componentPath = path.join(path.join(baseDir, config.basePath), _component);
   try {
-    rmdir(_componentPath);
+    util.rmdir(_componentPath);
   } catch (e) {
-    if (e.code != 'EEXIST') {
-      console.error(_component + ' doesn\'t exist at ' + config.basePath);
-      return;
+    if (e.code == 'ENOENT') {
+      gutil.log(gutil.colors.red(_component + ' doesn\'t exist at ' + config.basePath));
+    } else {
+      gutil.log(gutil.colors.red(_component + ' remove failed.', e));
     }
+    return;
   }
 
-  console.log(_component + ' removed.');
+  gutil.log(_component + ' removed.');
 };
 
 Component.prototype.info = function(_component) {
@@ -72,13 +74,11 @@ Component.prototype.info = function(_component) {
   try {
     var _jsonFile = fs.readFileSync(path.join(_componentPath, 'component.json'), 'utf8');
   } catch (e) {
-    if (e.code != 'EEXIST') {
-      console.error(_component + ' doesn\'t exist in ' + config.basePath);
-      return;
-    }
+    gutil.log(gutil.colors.red(_component + ' info failed.', e));
+    return;
   }
 
-  console.log(_jsonFile);
+  gutil.log(_jsonFile);
 };
 
 Component.prototype.watch = function(_component) {
@@ -114,7 +114,7 @@ Component.prototype.watch = function(_component) {
   }
 
   try {
-    rmdir(_tempComponentDir);
+    util.rmdir(_tempComponentDir);
   } catch (e) {
     if (e.code != 'ENOENT') {
       gutil.log(gutil.colors.red(_component + ' watch failed.', e));
@@ -146,8 +146,8 @@ Component.prototype.watch = function(_component) {
   _deps.forEach(function(_dep) {
     _jsxDeps.push(path.join(_baseDir, _dep, '/src/jsx/*.jsx'), path.join(_baseDir, _dep, '/src/jsx/*.js'));
     _sassDeps.push(path.join(_baseDir, _dep, '/src/*.scss'), path.join(_baseDir, _dep, '/src/*.css'));
-    _tempSass = lodash.uniq(_tempSass.concat(_depMap[_dep].extSass));
-    _tempJsx = lodash.uniq(_tempJsx.concat(_depMap[_dep].extJsx));
+    _tempSass = lodash.uniq(_tempSass.concat(_depMap[_dep]['s-css']));
+    _tempJsx = lodash.uniq(_tempJsx.concat(_depMap[_dep]['js-x']));
   });
 
   _tempSass.forEach(function(_path) {
@@ -160,17 +160,10 @@ Component.prototype.watch = function(_component) {
     _importJsx.push(path.join(_path, '/*.jsx'), path.join(_path, '/*.js'));
   });
 
-  gulp.task('compile-sass', function() {
-    return compile.sass({
+  gulp.task('compile-scss', function() {
+    return compile.scss({
       sources: _sassDeps.concat(_importSass),
       destination: path.join(_tempComponentDir, 'css')
-    });
-  });
-
-  gulp.task('compile-jade', function() {
-    return compile.jade({
-      source: path.join(_componentDir, 'src/*.jade'),
-      destination: _tempComponentDir
     });
   });
 
@@ -183,6 +176,15 @@ Component.prototype.watch = function(_component) {
     }, 'trigger');
   });
 
+  gulp.task('compile-jade', ['compile-scss'], function() {
+    return compile.jade({
+      ignore: '.tmp/components/' + _component,
+      inject: path.join(_tempComponentDir, 'css', '/*.css'),
+      source: path.join(_componentDir, 'src/*.jade'),
+      destination: _tempComponentDir
+    });
+  });
+
   gulp.task('watch', function() {
     // Watch current component jade
     gulp.watch([path.join(_componentDir, '/src/*.jade')], ['compile-jade']);
@@ -191,17 +193,17 @@ Component.prototype.watch = function(_component) {
     gulp.watch(_jsxDeps, ['compile-jsx']);
 
     // Watch current and dependency component sass
-    gulp.watch(_sassDeps, ['compile-sass']);
+    gulp.watch(_sassDeps, ['compile-scss']);
 
     // Watch external js & jsx
     gulp.watch(_importJsx, ['compile-jsx']);
 
     // Watch external sass
-    gulp.watch(_importSass, ['compile-sass']);
+    gulp.watch(_importSass, ['compile-scss']);
   });
 
   gulp.task('connect', function() {
-    getPort(9000, function(port) {
+    util.getPort(9000, function(port) {
       connect.server({
         root: _tempComponentDir,
         port: port,
@@ -211,26 +213,12 @@ Component.prototype.watch = function(_component) {
     });
   });
 
-  gulp.start('compile-sass', 'compile-jade', 'compile-jsx', 'watch', 'connect');
+  gulp.start('compile-scss', 'compile-jade', 'compile-jsx', 'watch', 'connect');
 };
 
 Component.prototype.test = function(_component) {};
 
 Component.prototype.coverage = function(_component) {};
-
-// Get free port
-var getPort = function(port, cb) {
-  var server = net.createServer();
-  server.listen(port, function(err) {
-    server.once('close', function() {
-      cb(port);
-    });
-    server.close();
-  });
-  server.on('error', function(err) {
-    getPort(port + 1, cb);
-  });
-};
 
 // Recursive dependency check
 var getDep = function(_baseDir, _component, _depMap) {
@@ -242,26 +230,6 @@ var getDep = function(_baseDir, _component, _depMap) {
       getDep(_baseDir, _componentInfo.dependencies.components[i], _depMap);
     }
   }
-};
-
-// Recursive directory remove
-var rmdir = function(dir) {
-  var list = fs.readdirSync(dir);
-  for (var i = 0; i < list.length; i++) {
-    var filename = path.join(dir, list[i]);
-    var stat = fs.statSync(filename);
-
-    if (filename == '.' || filename == '..') {
-      // pass these files
-    } else if (stat.isDirectory()) {
-      // rmdir recursively
-      rmdir(filename);
-    } else {
-      // rm fiilename
-      fs.unlinkSync(filename);
-    }
-  }
-  fs.rmdirSync(dir);
 };
 
 module.exports = Component;

@@ -12,4 +12,4 @@ var <%= name %> = React.createClass({
    }
 });
 
-module.exports = <%- name %>;
+module.exports = <%= name %>;
