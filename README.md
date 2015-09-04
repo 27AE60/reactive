@@ -35,7 +35,7 @@ npm install <?>reactive -g
 > reactive init
 
 # Scaffold a component
-> reactive init form/datepicker --component
+> reactive init form/datepicker --components
 
 # Watch changes in app
 > reactive watch
@@ -45,4 +45,7 @@ npm install <?>reactive -g
 
 # Build project
 > reactive build
+
+# List react components
+> reactive list --components
 ```
