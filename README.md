@@ -1,28 +1,48 @@
 # reactive
-Biased generator for react apps. Supports sass and jade. 
-The philosophy is based on development of standalone component.  
 
-#### Features 
-- Scaffolding App and Component
-- Development and Production level of Compilation 
+Biased generator for react apps. Supports sass and jade. 
+
+### Philosophy
+
+Based on development of standalone component.  
+
+---
+#### Preview
+---
+
+### Features
+- Scaffolding standalone components
+- Bootstrap react + flux application
+- Automation of tasks
   - Bundle dependencies, 
   - Sourcemapping, 
   - Transform JSX, 
   - Vendor specific dependencies, 
   - App specific dependencies
   - Handle images & fonts
+  - Minify css, js, html
+  - Optimize js, images
+  - Auto prefix css
   
-Requirements: webpack & webpack-dev-server
-Installation: ./install.sh
-Generated Files: 
-webpack-config.js, package.json, app.json 
+#### Installation
+```
+npm install <?>reactive -g
+```
 
 #### Usage 
 ```
-npm add forms/datepicker  /* add a component */
-npm run forms/datepicker  /* run component */
+# Bootstrapping Project
+> reactive init
 
-/* To run the app */
-npm run dev
-npm run prod
+# Scaffold a component
+> reactive init form/datepicker --component
+
+# Watch changes in app
+> reactive watch
+
+# Watch changes in component
+> reactive watch form/datepicker
+
+# Build project
+> reactive build
 ```
