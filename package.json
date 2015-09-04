@@ -1,0 +1,30 @@
+{
+  "name": "reactive",
+  "version": "0.0.1",
+  "description": "react app helper",
+  "main": "lib/index.js",
+  "bin": "bin/cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/27AE60/reactive.git"
+  },
+  "keywords": [
+    "react",
+    "react-scaffold",
+    "scaffold",
+    "react-component",
+    "web-component",
+    "automator",
+    "react-generator"
+  ],
+  "author": "27AE60",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/27AE60/reactive/issues"
+  },
+  "homepage": "https://github.com/27AE60/reactive#readme",
+  "preferGlobal": "true"
+}
