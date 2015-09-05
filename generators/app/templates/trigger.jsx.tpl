@@ -1,5 +1,5 @@
 var React = require('react');
 
-var <%- name %> = require('./<%- name %>.jsx');
+var <%= name %> = require('./<%= name %>.jsx');
 
-React.renderComponent(<<%- name %>/>, document.getElementById('main-wrapper'));
+React.renderComponent(<<%= name %>/>, document.getElementById('main-wrapper'));
