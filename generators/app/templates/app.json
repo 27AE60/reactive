@@ -1,0 +1,46 @@
+{
+  "name": "<%= rname %>",
+  "author": "<%= rauthor %>",
+  "dependencies": {
+    "js-x": ["actions", "constants", "dispatchers", "mixins", "stores", "utility", "layouts"],
+    "s-css": ["media/styles/base", "media/styles"],
+    "components": ["Yo"]
+  },
+  "components":{
+    "basePath": "src/components",
+    "tempDir": ".tmp/components",
+    "tpl" : {
+      "folders" : ["src", "src/jsx", "test"],
+      "files" : [
+        {
+          "name": "component",
+          "type": "json",
+          "path": ".",
+          "content": "tpl/component.json.tpl"
+        },
+        {
+          "type" : "jsx",
+          "path": "src/jsx",
+          "content": "tpl/component.jsx.tpl"
+        },
+        {
+          "name" : "trigger",
+          "type" : "jsx",
+          "path": "src/jsx",
+          "content": "tpl/trigger.jsx.tpl"
+        },
+        {
+          "name" : "index",
+          "type" : "jade",
+          "path": "src",
+          "content": "tpl/component.jade.tpl"
+        },
+        {
+          "type" :  "scss",
+          "path": "src",
+          "content": "tpl/component.scss.tpl"
+        }
+      ]
+    }
+  }
+}
