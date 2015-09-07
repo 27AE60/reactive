@@ -26,5 +26,10 @@
     "url": "https://github.com/27AE60/reactive/issues"
   },
   "homepage": "https://github.com/27AE60/reactive#readme",
-  "preferGlobal": "true"
+  "preferGlobal": "true",
+  "dependencies": {
+    "glob": "^5.0.14",
+    "meow": "^3.3.0",
+    "path": "^0.11.14"
+  }
 }

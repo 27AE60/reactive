@@ -1,0 +1,29 @@
+Usage: reactive command [args] [options]
+
+General options:
+--help         # Print this info and other commands info list
+--component    # Activate component mode
+
+List of commands:
+init          # Scaffold files and directories
+watch         # Watch for changes
+list          # List all components
+
+e.g.
+# Bootstrapping Project
+> reactive init
+
+# Scaffold a component
+> reactive init form/datepicker --components
+
+# Watch changes in app
+> reactive watch
+
+# Watch changes in component
+> reactive watch form/datepicker
+
+# Build project
+> reactive build
+
+# List react components
+> reactive list --components
