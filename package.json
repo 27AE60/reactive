@@ -29,7 +29,8 @@
   "preferGlobal": "true",
   "dependencies": {
     "glob": "^5.0.14",
+    "lodash": "^3.10.1",
     "meow": "^3.3.0",
-    "path": "^0.11.14"
+    "mkdirp": "^0.5.1"
   }
 }
