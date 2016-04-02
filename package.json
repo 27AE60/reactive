@@ -1,5 +1,5 @@
 {
-  "name": "reactive",
+  "name": "chetta",
   "version": "0.0.1",
   "description": "react app helper",
   "main": "lib/index.js",
@@ -9,28 +9,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/27AE60/reactive.git"
+    "url": "git+https://github.com/27AE60/chetta.git"
   },
   "keywords": [
-    "react",
-    "react-scaffold",
+    "reactjs",
+    "reactjs-scaffold",
     "scaffold",
-    "react-component",
+    "reactjs-component",
     "web-component",
-    "automator",
-    "react-generator"
+    "automator"
   ],
   "author": "27AE60",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/27AE60/reactive/issues"
+    "url": "https://github.com/27AE60/chetta/issues"
   },
-  "homepage": "https://github.com/27AE60/reactive#readme",
+  "homepage": "https://github.com/27AE60/chetta#readme",
   "preferGlobal": "true",
   "dependencies": {
     "glob": "^5.0.14",
     "lodash": "^3.10.1",
-    "meow": "^3.3.0",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "yargs": "^3.31.0"
   }
 }

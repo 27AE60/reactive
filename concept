@@ -1,0 +1,6 @@
+cheta add --component Forms
+two level component only
+cheta add --component Forms/Signup
+chetta add --layout MainScreeen
+Forms folder will have, Forms.jsx and Signup.jsx
+maintain only one level of directory structure
